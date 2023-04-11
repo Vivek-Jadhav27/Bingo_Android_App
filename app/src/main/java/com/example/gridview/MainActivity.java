@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 int row = position / matrix[0].length;
                 int col = position % matrix[0].length;
                 matrixC[row][col] = 1;
-                Toast.makeText(MainActivity.this, adapter1.getItem(position)+"clicked", Toast.LENGTH_SHORT).show();
                 flage = position;
                 View cur = gridView.getChildAt(position);
                 cur.setBackgroundResource(R.drawable.bg22);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-       // onBackPressed();
+
     }
 
     private void showWindailouge() {
@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
     private class Adapter1 extends BaseAdapter {
 
 
@@ -184,9 +183,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
     private int getRandomNumber() {
         int index = random.nextInt(numbersList.size());
         int number = numbersList.get(index);
@@ -244,10 +240,26 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
-
+    @Override
     public void onBackPressed(){
-                Intent intent = new Intent(MainActivity.this,StartActivity.class);
-        startActivity(intent);
 
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        alert.setTitle("Exit Game");
+        alert.setMessage("Do you want to exit Game");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(MainActivity.this,StartActivity.class);
+                startActivity(intent);
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alert.show();
     }
 }
